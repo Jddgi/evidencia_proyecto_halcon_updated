@@ -2,26 +2,22 @@
 
     <div class="container">
 
+        <a
+            href="/home"
+            class="home-btn"
+        >
+            ← Back
+        </a>
+
         <h1>HALCON</h1>
 
         <h2>Track Your Order</h2>
 
         <p>
-            Enter your Customer Number and Invoice Number to check your order status.
+            Enter your Invoice Number to check your order status.
         </p>
 
         <div>
-
-            <label>Customer Number</label>
-
-            <br>
-
-            <input
-                v-model="customerNumber"
-                type="text"
-            >
-
-            <br><br>
 
             <label>Invoice Number</label>
 
@@ -35,40 +31,59 @@
             <br><br>
 
             <button @click="searchOrder">
+
                 Check Order Status
+
             </button>
 
             <button
                 @click="clearSearch"
                 class="clear-btn"
             >
+
                 Clear Search
+
             </button>
 
         </div>
 
-        <div v-if="foundOrder" class="order-box">
+        <div
+            v-if="foundOrder"
+            class="order-box"
+        >
 
             <h3>Order Information</h3>
 
             <p>
-                <strong>Customer:</strong>
-                {{ foundOrder.customer }}
-            </p>
 
-            <p>
                 <strong>Invoice:</strong>
+
                 {{ foundOrder.invoice }}
+
             </p>
 
             <p>
+
+                <strong>Total:</strong>
+
+                ${{ foundOrder.total }}
+
+            </p>
+
+            <p>
+
                 <strong>Status:</strong>
+
                 {{ foundOrder.status }}
+
             </p>
 
         </div>
 
-        <div v-if="notFound" class="error-box">
+        <div
+            v-if="notFound"
+            class="error-box"
+        >
 
             Order not found.
 
@@ -86,37 +101,11 @@ export default {
 
         return {
 
-            customerNumber: '',
             invoiceNumber: '',
 
             foundOrder: null,
 
             notFound: false,
-
-            orders: [
-
-                {
-                    customerNumber: 'CUST001',
-                    invoice: 'INV001',
-                    customer: 'Juan Perez',
-                    status: 'Delivered'
-                },
-
-                {
-                    customerNumber: 'CUST002',
-                    invoice: 'INV002',
-                    customer: 'Maria Garcia',
-                    status: 'In Transit'
-                },
-
-                {
-                    customerNumber: 'CUST003',
-                    invoice: 'INV003',
-                    customer: 'Carlos Lopez',
-                    status: 'Processing'
-                }
-
-            ]
 
         };
 
@@ -124,23 +113,31 @@ export default {
 
     methods: {
 
-        searchOrder() {
+        async searchOrder() {
 
-            const result = this.orders.find(order =>
+            try {
 
-                order.customerNumber === this.customerNumber &&
-                order.invoice === this.invoiceNumber
+                const response = await fetch(
+                    `/api/orders/invoice/${this.invoiceNumber}`
+                );
 
-            );
+                if (!response.ok) {
 
-            if (result) {
+                    throw new Error();
+
+                }
+
+                const result = await response.json();
 
                 this.foundOrder = result;
+
                 this.notFound = false;
 
-            } else {
+            }
+            catch {
 
                 this.foundOrder = null;
+
                 this.notFound = true;
 
             }
@@ -149,10 +146,10 @@ export default {
 
         clearSearch() {
 
-            this.customerNumber = '';
             this.invoiceNumber = '';
 
             this.foundOrder = null;
+
             this.notFound = false;
 
         }
@@ -165,81 +162,162 @@ export default {
 
 <style>
 
-body{
-    margin:0;
-    background:#f4f7f6;
-    font-family:Arial, Helvetica, sans-serif;
+body {
+
+    margin: 0;
+
+    background: #f4f7f6;
+
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
-.container{
-    max-width:800px;
-    margin:40px auto;
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 0 15px rgba(0,0,0,.1);
+.container {
+
+    max-width: 800px;
+
+    margin: 40px auto;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+
 }
 
-h1{
-    color:#13352a;
-    text-align:center;
-    margin-bottom:10px;
+.home-btn {
+
+    display: inline-block;
+
+    margin-bottom: 20px;
+
+    padding: 10px 20px;
+
+    background: #666;
+
+    color: white;
+
+    font-size: 18px;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+
 }
 
-h2{
-    text-align:center;
-    margin-bottom:25px;
+.home-btn:hover {
+
+    background: #444;
+
 }
 
-label{
-    font-weight:bold;
+h1 {
+
+    color: #13352a;
+
+    text-align: center;
+
+    margin-bottom: 10px;
+
 }
 
-input{
-    width:100%;
-    padding:12px;
-    margin-top:5px;
-    border:1px solid #ccc;
-    border-radius:6px;
+h2 {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
 }
 
-button{
-    width:100%;
-    padding:12px;
-    background:#13352a;
-    color:white;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
+label {
+
+    font-weight: bold;
+
 }
 
-button:hover{
-    background:#1f5543;
+input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 5px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
 }
 
-.clear-btn{
-    margin-top:10px;
-    background:#666;
+button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    background: #13352a;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
 }
 
-.clear-btn:hover{
-    background:#444;
+button:hover {
+
+    background: #1f5543;
+
 }
 
-.order-box{
-    margin-top:25px;
-    padding:20px;
-    background:#eef6f3;
-    border-left:5px solid #13352a;
+.clear-btn {
+
+    margin-top: 10px;
+
+    background: #666;
+
 }
 
-.error-box{
-    margin-top:25px;
-    padding:15px;
-    background:#ffecec;
-    color:red;
-    border-left:5px solid red;
+.clear-btn:hover {
+
+    background: #444;
+
+}
+
+.order-box {
+
+    margin-top: 25px;
+
+    padding: 20px;
+
+    background: #eef6f3;
+
+    border-left: 5px solid #13352a;
+
+}
+
+.error-box {
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    background: #ffecec;
+
+    color: red;
+
+    border-left: 5px solid red;
+
 }
 
 </style>
