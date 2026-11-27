@@ -52,3 +52,15 @@ Route::get('/route/deliveries', [App\Http\Controllers\RouteController::class, 'd
 Route::get('/route/evidence', [App\Http\Controllers\RouteController::class, 'evidence']);
 
 Route::get('/route/completed', [App\Http\Controllers\RouteController::class, 'completed']);
+
+Route::get('/sales/orders/{id}', [App\Http\Controllers\SalesController::class, 'showOrder']);
+
+Route::get('/sales/orders/{id}/edit', [App\Http\Controllers\SalesController::class, 'editOrder']);
+
+Route::post('/sales/orders/{id}/update', [App\Http\Controllers\SalesController::class, 'updateOrder']);
+
+Route::post('/sales/orders/{id}/delete', [App\Http\Controllers\SalesController::class, 'deleteOrder']);
+
+Route::get('/sales/deleted-orders', [App\Http\Controllers\SalesController::class, 'deletedOrders']);
+
+Route::post('/sales/orders/{id}/restore', [App\Http\Controllers\SalesController::class, 'restoreOrder']);

@@ -39,6 +39,83 @@
 
                 <div class="mb-3">
 
+                    <label>Customer Name / Company Name</label>
+
+                    <input
+                        type="text"
+                        name="customer_name"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>Customer Number</label>
+
+                    <input
+                        type="text"
+                        name="customer_number"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>Fiscal Information</label>
+
+                    <input
+                        type="text"
+                        name="fiscal_information"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>Order Date</label>
+
+                    <input
+                        type="datetime-local"
+                        name="order_date"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>Delivery Address</label>
+
+                    <input
+                        type="text"
+                        name="delivery_address"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>Notes / Additional Information</label>
+
+                    <textarea
+                        name="notes"
+                        class="form-control"
+                        rows="3"
+                    ></textarea>
+
+                </div>
+
+                <div class="mb-3">
+
                     <label>Total</label>
 
                     <input
@@ -51,32 +128,10 @@
 
                 </div>
 
-                <div class="mb-3">
+                <div class="alert alert-info">
 
-                    <label>Status</label>
-
-                    <select
-                        name="status"
-                        class="form-control"
-                    >
-
-                        <option value="pending">
-                            Pending
-                        </option>
-
-                        <option value="processing">
-                            Processing
-                        </option>
-
-                        <option value="in transit">
-                            In Transit
-                        </option>
-
-                        <option value="delivered">
-                            Delivered
-                        </option>
-
-                    </select>
+                    Status will be automatically assigned as:
+                    <strong>Ordered</strong>
 
                 </div>
 
